@@ -20,6 +20,8 @@ chdir(__DIR__);
 $pathsConfig = FCPATH . '../app/Config/Paths.php';
 // ^^^ Change this if you move your application folder
 require realpath($pathsConfig) ?: $pathsConfig;
+require '../vendor/autoload.php';
+$app = require_once '../vendor/codeigniter4/framework/system/bootstrap.php';
 
 $paths = new Config\Paths();
 
