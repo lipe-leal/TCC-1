@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of CodeIgniter 4 framework.
  *
@@ -55,7 +53,7 @@ if (! function_exists('directory_map')) {
             closedir($fp);
 
             return $fileData;
-        } catch (Throwable) {
+        } catch (Throwable $e) {
             return [];
         }
     }
@@ -131,7 +129,7 @@ if (! function_exists('write_file')) {
             fclose($fp);
 
             return is_int($result);
-        } catch (Throwable) {
+        } catch (Throwable $e) {
             return false;
         }
     }
@@ -180,7 +178,7 @@ if (! function_exists('delete_files')) {
             }
 
             return true;
-        } catch (Throwable) {
+        } catch (Throwable $e) {
             return false;
         }
     }
@@ -196,14 +194,9 @@ if (! function_exists('get_filenames')) {
      * @param string    $sourceDir   Path to source
      * @param bool|null $includePath Whether to include the path as part of the filename; false for no path, null for a relative path, true for full path
      * @param bool      $hidden      Whether to include hidden files (files beginning with a period)
-     * @param bool      $includeDir  Whether to include directories
      */
-    function get_filenames(
-        string $sourceDir,
-        ?bool $includePath = false,
-        bool $hidden = false,
-        bool $includeDir = true
-    ): array {
+    function get_filenames(string $sourceDir, ?bool $includePath = false, bool $hidden = false): array
+    {
         $files = [];
 
         $sourceDir = realpath($sourceDir) ?: $sourceDir;
@@ -211,7 +204,7 @@ if (! function_exists('get_filenames')) {
 
         try {
             foreach (new RecursiveIteratorIterator(
-                new RecursiveDirectoryIterator($sourceDir, RecursiveDirectoryIterator::SKIP_DOTS | FilesystemIterator::FOLLOW_SYMLINKS),
+                new RecursiveDirectoryIterator($sourceDir, RecursiveDirectoryIterator::SKIP_DOTS),
                 RecursiveIteratorIterator::SELF_FIRST
             ) as $name => $object) {
                 $basename = pathinfo($name, PATHINFO_BASENAME);
@@ -219,17 +212,15 @@ if (! function_exists('get_filenames')) {
                     continue;
                 }
 
-                if ($includeDir || ! $object->isDir()) {
-                    if ($includePath === false) {
-                        $files[] = $basename;
-                    } elseif ($includePath === null) {
-                        $files[] = str_replace($sourceDir, '', $name);
-                    } else {
-                        $files[] = $name;
-                    }
+                if ($includePath === false) {
+                    $files[] = $basename;
+                } elseif ($includePath === null) {
+                    $files[] = str_replace($sourceDir, '', $name);
+                } else {
+                    $files[] = $name;
                 }
             }
-        } catch (Throwable) {
+        } catch (Throwable $e) {
             return [];
         }
 
@@ -279,7 +270,7 @@ if (! function_exists('get_dir_file_info')) {
             closedir($fp);
 
             return $fileData;
-        } catch (Throwable) {
+        } catch (Throwable $fe) {
             return [];
         }
     }
@@ -294,8 +285,8 @@ if (! function_exists('get_file_info')) {
      * Options are: name, server_path, size, date, readable, writable, executable, fileperms
      * Returns false if the file cannot be found.
      *
-     * @param string       $file           Path to file
-     * @param array|string $returnedValues Array or comma separated string of information returned
+     * @param string $file           Path to file
+     * @param mixed  $returnedValues Array or comma separated string of information returned
      *
      * @return array|null
      */
@@ -381,19 +372,19 @@ if (! function_exists('symbolic_permissions')) {
         }
 
         // Owner
-        $symbolic .= ((($perms & 0x0100) !== 0) ? 'r' : '-')
-                . ((($perms & 0x0080) !== 0) ? 'w' : '-')
-                . ((($perms & 0x0040) !== 0) ? ((($perms & 0x0800) !== 0) ? 's' : 'x') : ((($perms & 0x0800) !== 0) ? 'S' : '-'));
+        $symbolic .= (($perms & 0x0100) ? 'r' : '-')
+                . (($perms & 0x0080) ? 'w' : '-')
+                . (($perms & 0x0040) ? (($perms & 0x0800) ? 's' : 'x') : (($perms & 0x0800) ? 'S' : '-'));
 
         // Group
-        $symbolic .= ((($perms & 0x0020) !== 0) ? 'r' : '-')
-                . ((($perms & 0x0010) !== 0) ? 'w' : '-')
-                . ((($perms & 0x0008) !== 0) ? ((($perms & 0x0400) !== 0) ? 's' : 'x') : ((($perms & 0x0400) !== 0) ? 'S' : '-'));
+        $symbolic .= (($perms & 0x0020) ? 'r' : '-')
+                . (($perms & 0x0010) ? 'w' : '-')
+                . (($perms & 0x0008) ? (($perms & 0x0400) ? 's' : 'x') : (($perms & 0x0400) ? 'S' : '-'));
 
         // World
-        $symbolic .= ((($perms & 0x0004) !== 0) ? 'r' : '-')
-                . ((($perms & 0x0002) !== 0) ? 'w' : '-')
-                . ((($perms & 0x0001) !== 0) ? ((($perms & 0x0200) !== 0) ? 't' : 'x') : ((($perms & 0x0200) !== 0) ? 'T' : '-'));
+        $symbolic .= (($perms & 0x0004) ? 'r' : '-')
+                . (($perms & 0x0002) ? 'w' : '-')
+                . (($perms & 0x0001) ? (($perms & 0x0200) ? 't' : 'x') : (($perms & 0x0200) ? 'T' : '-'));
 
         return $symbolic;
     }

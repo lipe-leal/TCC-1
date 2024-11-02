@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of CodeIgniter 4 framework.
  *
@@ -64,7 +62,7 @@ final class Environment extends BaseCommand
     /**
      * The Command's options
      *
-     * @var array<string, string>
+     * @var array
      */
     protected $options = [];
 
@@ -74,7 +72,7 @@ final class Environment extends BaseCommand
      *
      * @var array<int, string>
      */
-    private static array $knownTypes = [
+    private static $knownTypes = [
         'production',
         'development',
     ];
