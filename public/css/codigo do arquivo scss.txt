@@ -1,0 +1,1 @@
+sass --watch public/css/stylocompilado.scss:public/css/stylocompilado.css
