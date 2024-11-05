@@ -133,21 +133,7 @@ Nossa Historia
                 </div> 
             </div>
         </li>
-        <li class="timeline-right">
-            <div class="tl-circ"></div>
-            <div class="timeline-panel">
-                <div class="tl-heading">
-                    <div class="tl-content">
-                        <div class="be-desc">
-                            <h2 class="be-title">2011</h2>
-                            <div class="be-content">
-                                <p>Em 2011, a Amslustres reafirmou sua posição como uma referência em iluminação de alta qualidade, oferecendo uma seleção ainda mais ampla de lustres e pendentes que unem design contemporâneo e funcionalidade. A loja se destacou pelo atendimento personalizado, proporcionando uma experiência única a cada cliente na busca pela iluminação perfeita. Comprometida com a sustentabilidade, a Amslustres continuou a utilizar materiais eco-friendly em suas peças, reforçando sua responsabilidade ambiental. Com um portfólio diversificado, atendeu tanto projetos residenciais quanto comerciais, sempre com um toque de elegância. Venha descobrir como a iluminação pode realçar a beleza do seu espaço!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
+        
     </ul>
 </section>
 
